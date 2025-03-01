@@ -9,10 +9,22 @@ const View = async ({ id }: { id: string }) => {
   const { views: totalViews } = await client
     .withConfig({ useCdn: false })
     .fetch(STARTUP_VIEWS_QUERY, { id });
-
+  
   // Increment the view count by 1
   const updatedViews = totalViews + 1;
-
+  const  x  = "67bb868b539f5dcbe782507e";
+  const startups = await fetch(`http://localhost:3000/api/startups/user/${x}`);
+  const rawResponse_Startups = await startups.json();
+  console.log("hehe",rawResponse_Startups);
+  rawResponse_Startups.views = rawResponse_Startups.views + 1;
+  const req = await fetch(`http://localhost:3000/api/startups/${x}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(rawResponse_Startups),
+  });
+  console.log(rawResponse_Startups.views);
   // Perform the update
   await writeClient
     .patch(id)

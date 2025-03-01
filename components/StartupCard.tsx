@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export type StartupCardType = Omit<Startup, "author"> & { author?: Author };
 
 const StartupCard = ({ post }: { post: StartupCardType }) => {
+  
   return (
     <li className="startup-card group">
       <div className="flex-between">

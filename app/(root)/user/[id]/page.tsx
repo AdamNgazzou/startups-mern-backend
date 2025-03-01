@@ -14,8 +14,18 @@ export const experimental_ppr = true;
 
 async function Page({ params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;
-  const session = await auth();
 
+  //fetching mongodb
+  //to change make it id when you make the user get all the data from mongodb
+
+
+  //authors fetch
+  const author = await fetch(`http://localhost:3000/api/authors/user/?github_id=${id}`);
+  const rawResponse_author = await author.json();
+  console.log(rawResponse_author);
+  
+
+  const session = await auth();
   const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id: id });
   if (!user) return notFound();
 

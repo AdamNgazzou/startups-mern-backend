@@ -27,7 +27,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       slug: "editor-picks",
     }),
   ]);
-
+  const  x  = "67bb868b539f5dcbe782507e";
+  const startups = await fetch(`http://localhost:3000/api/startups/user/${x}`);
+  const rawResponse_Startups = await startups.json();
+  console.log(rawResponse_Startups);
   if (!post) return notFound();
 
   const parsedContent = md.render(post?.pitch || "");

@@ -11,6 +11,7 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/action";
+import { auth } from "@/auth";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -29,6 +30,33 @@ const StartupForm = () => {
       };
 
       await formSchema.parseAsync(formValues);
+      //const session =  await auth();
+      const y ="NLfQv8AcvbbTlt7VmScqUB";
+      const res_author = await fetch(`http://localhost:3000/api/authors/user/?query=${y}`);
+      const author = await res_author.json();
+      console.log(author);
+
+      const response = await fetch('/api/startups', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: formData.get("title") as string,
+          slug: formData.get("title") as string,
+          author_id: author[0]._id as object,
+          author_name: author[0].name as string ,
+          author_githubid: author[0].id as string,
+          views:0,  
+          description: formData.get("description") as string,
+          category: formData.get("category") as string,
+          image: formData.get("link") as string,  
+          pitch,
+        }),
+      });
+      const x = await response.json();
+      console.log(x);
+
 
       const result = await createPitch(prevState, formData, pitch);
 
@@ -37,6 +65,7 @@ const StartupForm = () => {
           title: "Success",
           description: "Your startup pitch has been created successfully",
         });
+        
 
         router.push(`/startup/${result._id}`);
       }
