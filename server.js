@@ -35,15 +35,6 @@ app.prepare().then(() => {
     server.use('/api/authors', authorRoute);
     server.use('/api/startups', startupRoute);
 
-    // Redirecting the forbidden routes
-    /*server.use('/api/authors', (req, res, next) => {
-        // If it's a regular browser request (not an API call), perform the redirect
-        if (req.headers['accept'] && req.headers['accept'].includes('text/html')) {
-            return res.redirect('/'); // Redirect to home page or any other URL
-        }
-        next(); // Continue to the actual API route if it's not a browser request
-    });*/
-
     // Default route to handle query parameters
     server.get('/', (req, res) => {
         const { query = "", page = "1" } = req.query;
