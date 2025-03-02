@@ -13,7 +13,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 
 
   //authors fetch
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
   const author = await fetch(`${baseUrl}/api/authors/user/${id}`);
   const rawResponse_author = await author.json();
   

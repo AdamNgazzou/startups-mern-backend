@@ -5,7 +5,7 @@ import { formatNumber } from "@/lib/utils";
 const View = async ({ id }: { id: string }) => {
   // Fetch total views
 
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
   // Increment the view count by 1
   const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
