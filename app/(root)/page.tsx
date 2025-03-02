@@ -17,12 +17,27 @@ export default async function Home({
 
   // Fetching MongoDB data (for debugging purposes)
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  console.log("test home");
-  if (!baseUrl) {
-    console.log("NEXT_PUBLIC_API_URL is not defined");
-  }
-  const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
-  const rawResponse = await response.json();
+if (!baseUrl) {
+  throw new Error("NEXT_PUBLIC_API_URL is not defined");
+}
+
+const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
+const contentType = response.headers.get("content-type");
+
+if (!response.ok) {
+  console.error(`Error: ${response.status} ${response.statusText}`);
+  const errorText = await response.text();
+  console.error(`Response: ${errorText}`);
+  throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+}
+
+if (!contentType || !contentType.includes("application/json")) {
+  const text = await response.text();
+  console.error(`Expected JSON but got: ${text}`);
+  throw new Error("Expected JSON response");
+}
+
+const rawResponse = await response.json();
 
   const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
   const displayedPosts =rawResponse.data ;
