@@ -13,19 +13,12 @@ export default async function Home({
   const { query = "", page = "1" } = await searchParams;
   const pageNumber = parseInt(page, 10) || 1;
   const limit = 3; // Items per page
-  const start = (pageNumber - 1) * limit;
-  const end = start + limit + 1; // Fetch one more than the limit
   const session = await auth();
-  console.log(session);
-  const params = { search: query, start, end };
 
   // Fetching MongoDB data (for debugging purposes)
-  const response = await fetch(`http://localhost:3000/api/startups/?page=${page}&limit=${limit}&query=${query}`);
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+  const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
   const rawResponse = await response.json();
-
-  console.log("MongoDB response:", rawResponse);
-
-  // Fetching data from Sanity
 
   const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
   const displayedPosts =rawResponse.data ;
@@ -45,6 +38,7 @@ export default async function Home({
         </p>
 
         <ul className="mt-7 card_grid">
+          
           {rawResponse.pagination.total > 0 ? ( 
             displayedPosts.map((post: any) => (
               <StartupCard key={post?._id} post={post} />

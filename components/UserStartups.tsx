@@ -1,16 +1,18 @@
 
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
+import StartupCard from "@/components/StartupCard";
 
 const UserStartups = async ({ id }: { id: string }) => {
 
   // startups of author fetch
-  const startups = await fetch(`http://localhost:3000/api/startups/user/?github_id=${id}`);
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+
+  const startups = await fetch(`${baseUrl}/api/startups/user/?github_id=${id}`);
   const rawResponse_Startups = await startups.json();
   console.log(rawResponse_Startups);
   return (
     <>
       {rawResponse_Startups.length > 0 ? (
-        rawResponse_Startups.map((post: StartupCardType) => (
+        rawResponse_Startups.map((post: any) => (
           <StartupCard key={post._id} post={post} />
         ))
       ) : (

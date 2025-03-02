@@ -1,12 +1,5 @@
 import Image from "next/image";
 import { Suspense } from "react";
-import { notFound } from "next/navigation";
-
-import { auth } from "@/auth";
-
-import { client } from "@/sanity/lib/client";
-import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
-
 import UserStartups from "@/components/UserStartups";
 import { StartupCardSkeleton } from "@/components/StartupCard";
 
@@ -20,13 +13,10 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 
 
   //authors fetch
-  const author = await fetch(`http://localhost:3000/api/authors/user/${id}`);
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+  const author = await fetch(`${baseUrl}/api/authors/user/${id}`);
   const rawResponse_author = await author.json();
-  console.log("456",rawResponse_author);
   
-
-
-
   return (
     <>
       <section className="profile_container">

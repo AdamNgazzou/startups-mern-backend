@@ -5,14 +5,15 @@ import { formatNumber } from "@/lib/utils";
 const View = async ({ id }: { id: string }) => {
   // Fetch total views
 
-  
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+
   // Increment the view count by 1
-  const startups = await fetch(`http://localhost:3000/api/startups/user/${id}`);
+  const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
   console.log("hehe",rawResponse_Startups);
 
   rawResponse_Startups.startup.views = rawResponse_Startups.startup.views + 1;
-  const req = await fetch(`http://localhost:3000/api/startups/${id}`, {
+  const req = await fetch(`${baseUrl}/api/startups/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

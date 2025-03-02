@@ -1,10 +1,4 @@
 import { Suspense } from "react";
-import { client } from "@/sanity/lib/client";
-import {
-  PLAYLIST_BY_SLUG_QUERY,
-  STARTUP_BY_ID_QUERY,
-} from "@/sanity/lib/queries";
-import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,18 +6,16 @@ import Image from "next/image";
 import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
+import StartupCard from "@/components/StartupCard";
 
-const md = markdownit();
+const md = markdownit({ linkify: true });;
 
 export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
-
-  console.log("id",id);
-  const startups = await fetch(`http://localhost:3000/api/startups/user/${id}`);
-  
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'; 
+  const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
   console.log("test",rawResponse_Startups?.startup?.pitch);
 
@@ -88,7 +80,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p className="text-30-semibold">Editor Picks</p>
 
             <ul className="mt-7 card_grid-sm">
-              {rawResponse_Startups.map((post: StartupCardType, i: number) => (
+              {rawResponse_Startups.map((post: any, i: number) => (
                 <StartupCard key={i} post={post} />
               ))}
             </ul>

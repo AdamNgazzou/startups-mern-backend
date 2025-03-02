@@ -28,11 +28,7 @@ const StartupForm = ({ UserId }: { UserId: any }) => {
       };
 
       await formSchema.parseAsync(formValues);
-      //const session =  await auth();
-      //const res_author = await fetch(`http://localhost:3000/api/authors/user/?query=${UserId}`);
-      //const author = await res_author.json();
-      //console.log(author);
-
+      
       const response = await fetch('/api/startups', {
         method: 'POST',
         headers: {

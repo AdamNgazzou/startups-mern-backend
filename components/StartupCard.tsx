@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const StartupCard = ({ post }: { post: any }) => {
-  console.log(post);
-  console.log(post.author);
   return (
     <li className="startup-card group">
       <div className="flex-between">
