@@ -10,7 +10,12 @@ export default async function Home({
 }: {
   searchParams: Promise<{ query?: string; page?: string }>;
 }) {
-  const { query = "", page = "1" } = await searchParams;
+  return (
+    <>
+      <h1>hey</h1>
+    </>
+  )
+  /*const { query = "", page = "1" } = await searchParams;
   const pageNumber = parseInt(page, 10) || 1;
   const limit = 3; // Items per page
   const session = await auth();
@@ -19,7 +24,7 @@ export default async function Home({
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiUrl = `${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`;
 
-  const response = await fetch(`${apiUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
+  const response = await fetch(`http://localhost:3000/api/startups/?page=${page}&limit=${limit}&query=${query}`);
   const rawResponse = await response.json();
 
   const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
@@ -50,7 +55,6 @@ export default async function Home({
           )}
         </ul>
 
-        {/* Pagination Controls */}
         <div className="pagination">
           {rawResponse.pagination.page > 1 && (
             <a href={`?query=${query}&page=${pageNumber - 1}`} className="pagination-btn previous-btn">
@@ -67,4 +71,5 @@ export default async function Home({
 
     </>
   );
+  */
 } 
