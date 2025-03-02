@@ -11,16 +11,8 @@ const startupSchema = new mongoose.Schema({
         unique: true,
     },
     author_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author',
-        required: true,
-    },
-    author_name: {
-        type: String, // Author name
-        required: true,
-    },
-    author_githubid : {
         type: String,
+        ref: 'Author',
         required: true,
     },
     views: {

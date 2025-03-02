@@ -2,16 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { EyeIcon } from "lucide-react";
 
-import { Author, Startup } from "@/sanity/types";
 import { cn, formatDate, formatNumber } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export type StartupCardType = Omit<Startup, "author"> & { author?: Author };
-
-const StartupCard = ({ post }: { post: StartupCardType }) => {
-  
+const StartupCard = ({ post }: { post: any }) => {
+  console.log(post);
+  console.log(post.author);
   return (
     <li className="startup-card group">
       <div className="flex-between">
@@ -24,14 +22,14 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
 
       <div className="flex-between mt-5 gap-5">
         <div className="flex-1">
-          <Link href={`/user/${post.author?._id!}`}>
+          <Link href={`/user/${post.author?._ref!}`}>
             <p className="text-16-medium line-clamp-1">{post.author?.name}</p>
           </Link>
           <Link href={`/startup/${post._id}`}>
             <h3 className="text-26-semibold line-clamp-1">{post.title}</h3>
           </Link>
         </div>
-        <Link href={`/user/${post.author?._id}`}>
+        <Link href={`/user/${post.author?._ref}`}>
           <Image
             src={post.author?.image!}
             alt="placeholder"

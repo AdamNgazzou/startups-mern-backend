@@ -1,7 +1,6 @@
 import SearchForm from "@/components/SearchForm";
-import StartupCard, { StartupCardType } from "@/components/StartupCard";
-import { STARTUPS_QUERY } from "@/sanity/lib/queries";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import StartupCard from "@/components/StartupCard";
+
 import { auth } from "@/auth";
 import { Suspense } from "react";
 import './page.css';
@@ -16,18 +15,20 @@ export default async function Home({
   const limit = 3; // Items per page
   const start = (pageNumber - 1) * limit;
   const end = start + limit + 1; // Fetch one more than the limit
-
+  const session = await auth();
+  console.log(session);
   const params = { search: query, start, end };
 
   // Fetching MongoDB data (for debugging purposes)
   const response = await fetch(`http://localhost:3000/api/startups/?page=${page}&limit=${limit}&query=${query}`);
   const rawResponse = await response.json();
+
   console.log("MongoDB response:", rawResponse);
 
   // Fetching data from Sanity
-  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
-  const hasNextPage = posts.length > limit;
-  const displayedPosts = hasNextPage ? posts.slice(0, limit) : posts;
+
+  const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
+  const displayedPosts =rawResponse.data ;
 
   return (
     <>
@@ -44,8 +45,8 @@ export default async function Home({
         </p>
 
         <ul className="mt-7 card_grid">
-          {displayedPosts?.length > 0 ? (
-            displayedPosts.map((post: StartupCardType) => (
+          {rawResponse.pagination.total > 0 ? ( 
+            displayedPosts.map((post: any) => (
               <StartupCard key={post?._id} post={post} />
             ))
           ) : (
@@ -55,7 +56,7 @@ export default async function Home({
 
         {/* Pagination Controls */}
         <div className="pagination">
-          {pageNumber > 1 && (
+          {rawResponse.pagination.page > 1 && (
             <a href={`?query=${query}&page=${pageNumber - 1}`} className="pagination-btn previous-btn">
               Previous
             </a>
@@ -68,7 +69,6 @@ export default async function Home({
         </div>
       </section>
 
-      <SanityLive />
     </>
   );
 } 

@@ -10,10 +10,8 @@ import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { createPitch } from "@/lib/action";
-import { auth } from "@/auth";
 
-const StartupForm = () => {
+const StartupForm = ({ UserId }: { UserId: any }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
   const { toast } = useToast();
@@ -31,10 +29,9 @@ const StartupForm = () => {
 
       await formSchema.parseAsync(formValues);
       //const session =  await auth();
-      const y ="NLfQv8AcvbbTlt7VmScqUB";
-      const res_author = await fetch(`http://localhost:3000/api/authors/user/?query=${y}`);
-      const author = await res_author.json();
-      console.log(author);
+      //const res_author = await fetch(`http://localhost:3000/api/authors/user/?query=${UserId}`);
+      //const author = await res_author.json();
+      //console.log(author);
 
       const response = await fetch('/api/startups', {
         method: 'POST',
@@ -44,33 +41,30 @@ const StartupForm = () => {
         body: JSON.stringify({
           title: formData.get("title") as string,
           slug: formData.get("title") as string,
-          author_id: author[0]._id as object,
-          author_name: author[0].name as string ,
-          author_githubid: author[0].id as string,
+          author_id: UserId as string,
           views:0,  
           description: formData.get("description") as string,
           category: formData.get("category") as string,
           image: formData.get("link") as string,  
-          pitch,
+          pitch
         }),
       });
-      const x = await response.json();
-      console.log(x);
+      const responseRaw = await response.json();
+      console.log("done",responseRaw);
 
 
-      const result = await createPitch(prevState, formData, pitch);
-
-      if (result.status == "SUCCESS") {
+      console.log("result",responseRaw.status);
+      if (responseRaw) {
         toast({
           title: "Success",
           description: "Your startup pitch has been created successfully",
         });
         
 
-        router.push(`/startup/${result._id}`);
+        router.push(`/startup/${responseRaw._id}`);
       }
 
-      return result;
+      return responseRaw;
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErorrs = error.flatten().fieldErrors;
