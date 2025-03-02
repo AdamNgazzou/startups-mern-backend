@@ -18,7 +18,7 @@ export default async function Home({
   // Fetching MongoDB data (for debugging purposes)
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_API_URL is not defined");
+    console.log("NEXT_PUBLIC_API_URL is not defined");
   }
   const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
   const rawResponse = await response.json();
