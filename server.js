@@ -15,7 +15,7 @@ app.prepare().then(() => {
     server.use(express.urlencoded({ extended: false }));
 
     // Connect to the database
-    mongoose.connect("mongodb+srv://Adem-Ngazzou:WAM6jf0C0mqsV96s@startup.6kblf.mongodb.net/?retryWrites=true&w=majority&appName=Startup")
+    mongoose.connect(process.env.MONGODB_URI)
         .then(() => {
             console.log('Connected to the database');
             console.log("Checking database collections...");

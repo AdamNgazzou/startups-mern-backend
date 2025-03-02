@@ -19,10 +19,6 @@ export default async function Home({
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
   console.log(baseUrl);
   const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
-  if (!response.ok) {
-    console.error("Error response:", await response.text());  // This will log the raw HTML response
-    throw new Error("Failed to fetch data from API");
-  }
   const rawResponse = await response.json();
 
   const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
