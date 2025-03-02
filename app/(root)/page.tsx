@@ -17,6 +17,7 @@ export default async function Home({
 
   // Fetching MongoDB data (for debugging purposes)
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  console.log(baseUrl);
   const response = await fetch(`${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`);
   const rawResponse = await response.json();
 
