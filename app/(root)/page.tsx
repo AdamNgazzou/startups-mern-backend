@@ -10,12 +10,8 @@ export default async function Home({
 }: {
   searchParams: Promise<{ query?: string; page?: string }>;
 }) {
-  return (
-    <>
-      <h1>hey</h1>
-    </>
-  )
-  /*const { query = "", page = "1" } = await searchParams;
+
+  const { query = "", page = "1" } = await searchParams;
   const pageNumber = parseInt(page, 10) || 1;
   const limit = 3; // Items per page
   const session = await auth();
@@ -71,5 +67,5 @@ export default async function Home({
 
     </>
   );
-  */
+  
 } 
