@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
 const authorRoute = require('./backend/routes/author.route.js');
@@ -57,4 +57,4 @@ app.prepare().then(() => {
         if (err) throw err;
         console.log(`> Ready on http://localhost:${port}`);
     });
-});
+});*/
