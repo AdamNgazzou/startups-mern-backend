@@ -1,7 +1,7 @@
 const express = require("express");
-const StartupModel = require("../models/startup.model");
+const StartupModel = require("@/backend/models/startup.model");
 const router = express.Router();
-const { getStartups, getStartup, getStartupsbyAuthor, createStartup, updateStartup, deleteStartup } = require("../controllers/startup.controller");
+const { getStartups, getStartup, getStartupsbyAuthor, createStartup, updateStartup, deleteStartup } = require("@/backend/controllers/startup.controller");
 
 // route get all startup 
 router.get('/', getStartups);
