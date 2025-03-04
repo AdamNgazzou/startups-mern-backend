@@ -6,13 +6,13 @@ const startupRoute = require('./routes/startup.route.js');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev, dir: '../client' }); // Set the correct project root
 const handle = app.getRequestHandler();
-
+const cors = require('cors');
 app.prepare().then(() => {
     const server = express();
 
     // Middleware
     server.use(express.json());
-
+    server.use(cors());
     // Connect to the database
     mongoose.connect(process.env.MONGODB_URI)
         .then(() => {

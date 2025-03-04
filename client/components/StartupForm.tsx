@@ -28,8 +28,9 @@ const StartupForm = ({ UserId }: { UserId: any }) => {
       };
 
       await formSchema.parseAsync(formValues);
-      
-      const response = await fetch('/api/startups', {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      console.log("UserIddd",UserId);
+      const response = await fetch(`${baseUrl}/api/startups`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
