@@ -59,7 +59,7 @@ const workSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Pitchify",
+  title: "Pitchup",
   description: "Pitch, Vote and Grow",
   
 };
