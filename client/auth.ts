@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import mongoose from "mongoose";
-import Author from "./backend/models/author.model"; // Adjust path as needed
+import Author from "../backend/models/author.model"; // Adjust path as needed
 import dbConnect from "./lib/dbConnect"; // Utility for connecting to MongoDB
 
 export const { handlers, signIn, signOut, auth } = NextAuth({

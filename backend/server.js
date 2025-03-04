@@ -1,10 +1,10 @@
 const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
-const authorRoute = require('./backend/routes/author.route.js');
-const startupRoute = require('./backend/routes/startup.route.js');
+const authorRoute = require('./routes/author.route.js');
+const startupRoute = require('./routes/startup.route.js');
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const app = next({ dev, dir: '../client' }); // Set the correct project root
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -44,7 +44,6 @@ app.prepare().then(() => {
         console.log("Page:", page);
 
         // Pass query and page to the Next.js page
-        return app.render(req, res, '/', { query, page });
     });
 
     // Handle Next.js pages

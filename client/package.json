@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "node server.js",
+    "start": "next start",
     "lint": "next lint",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -26,6 +26,7 @@
     "@sentry/nextjs": "^8.45.0",
     "@tailwindcss/typography": "^0.5.15",
     "@uiw/react-md-editor": "^4.0.4",
+    "aws4": "^1.13.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "easymde": "^2.18.0",
