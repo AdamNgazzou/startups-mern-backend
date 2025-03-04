@@ -30,6 +30,7 @@ const StartupForm = ({ UserId }: { UserId: any }) => {
       await formSchema.parseAsync(formValues);
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       console.log("UserIddd",UserId);
+      console.log(formData.get("title"));
       const response = await fetch(`${baseUrl}/api/startups`, {
         method: 'POST',
         headers: {
