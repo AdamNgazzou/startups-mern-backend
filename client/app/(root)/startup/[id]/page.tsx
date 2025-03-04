@@ -14,7 +14,7 @@ export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ;
   const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
   console.log("test",rawResponse_Startups?.startup?.pitch);

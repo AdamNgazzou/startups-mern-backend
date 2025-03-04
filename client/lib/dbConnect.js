@@ -9,10 +9,8 @@ async function dbConnect() {
     if (mongoose.connection.readyState >= 1) {
         return;
     }
-    await mongoose.connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+    await mongoose.connect(MONGODB_URI)
+        .then(console.log("hello bhihih connected db"));
 }
 
 export default dbConnect;
