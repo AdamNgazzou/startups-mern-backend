@@ -20,7 +20,7 @@ export default async function Home({
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   const apiUrl = `${baseUrl}/api/startups/?page=${page}&limit=${limit}&query=${query}`;
 
-  const response = await fetch(`http://localhost:3000/api/startups/?page=${page}&limit=${limit}&query=${query}`);
+  const response = await fetch(`${apiUrl}`);
   const rawResponse = await response.json();
 
   const hasNextPage = rawResponse.pagination.totalPages != rawResponse.pagination.page;
