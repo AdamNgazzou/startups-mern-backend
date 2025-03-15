@@ -7,12 +7,16 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev, dir: '../client' }); // Set the correct project root
 const handle = app.getRequestHandler();
 const cors = require('cors');
+const cron = require('node-cron');
+const axios = require('axios');
+
 app.prepare().then(() => {
     const server = express();
 
     // Middleware
     server.use(express.json());
     server.use(cors());
+
     // Connect to the database
     mongoose.connect(process.env.MONGODB_URI)
         .then(() => {
@@ -55,5 +59,16 @@ app.prepare().then(() => {
     server.listen(port, (err) => {
         if (err) throw err;
         console.log(`> Ready on http://localhost:${port}`);
+    });
+
+    // Cron job to keep the server awake
+    cron.schedule('*/25 * * * *', () => {
+        axios.get(`http://localhost:${port}/api/authors`)
+            .then(response => {
+                console.log('Pinged server to keep it awake:', response.status);
+            })
+            .catch(error => {
+                console.error('Error pinging server:', error);
+            });
     });
 });
