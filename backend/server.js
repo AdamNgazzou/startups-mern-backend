@@ -62,7 +62,7 @@ app.prepare().then(() => {
     });
 
     // Cron job to keep the server awake
-    cron.schedule('*/25 * * * *', () => {
+    cron.schedule('*/13 * * * *', () => {
         axios.get(`http://localhost:${port}/api/authors`)
             .then(response => {
                 console.log('Pinged server to keep it awake:', response.status);
