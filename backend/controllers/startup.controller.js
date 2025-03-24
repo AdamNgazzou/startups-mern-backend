@@ -12,20 +12,7 @@ const getStartups = async (req, res) => {
         const searchQuery = req.query.query || '';
 
         // Aggregation pipeline
-        const matchStage = {
-            $match: {
-                $or: [
-                    { title: { $regex: searchQuery, $options: 'i' } },
-                    { category: { $regex: searchQuery, $options: 'i' } },
-                    { "author.name": { $regex: searchQuery, $options: 'i' } }
-                ]
-            }
-        };
-
         const aggregationPipeline = [
-            matchStage,
-            { $skip: skip },
-            { $limit: limit },
             {
                 $lookup: {
                     from: 'authors',
@@ -40,6 +27,17 @@ const getStartups = async (req, res) => {
                     preserveNullAndEmptyArrays: true // Keep startups even if they have no author
                 }
             },
+            {
+                $match: {
+                    $or: [
+                        { title: { $regex: searchQuery, $options: 'i' } },
+                        { category: { $regex: searchQuery, $options: 'i' } },
+                        { $expr: { $regexMatch: { input: "$author.name", regex: searchQuery, options: "i" } } }
+                    ]
+                }
+            },
+            { $skip: skip },
+            { $limit: limit },
             {
                 $project: {
                     _id: 1,
@@ -59,7 +57,13 @@ const getStartups = async (req, res) => {
         ];
 
         const startups = await startupModel.aggregate(aggregationPipeline);
-        const total = await startupModel.countDocuments(matchStage.$match);
+        const total = await startupModel.countDocuments({
+            $or: [
+                { title: { $regex: searchQuery, $options: 'i' } },
+                { category: { $regex: searchQuery, $options: 'i' } },
+                { "author.name": { $regex: searchQuery, $options: 'i' } }
+            ]
+        });
 
         res.status(200).json({
             data: startups,
