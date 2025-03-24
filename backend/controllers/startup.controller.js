@@ -17,7 +17,7 @@ const getStartups = async (req, res) => {
                 $or: [
                     { title: { $regex: searchQuery, $options: 'i' } },
                     { category: { $regex: searchQuery, $options: 'i' } },
-                    { author_id: { $regex: searchQuery, $options: 'i' } }
+                    { "author.name": { $regex: searchQuery, $options: 'i' } }
                 ]
             }
         };
