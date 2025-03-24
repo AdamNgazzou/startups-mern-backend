@@ -11,8 +11,11 @@ const handle = app.getRequestHandler();
 const cors = require('cors');
 const cron = require('node-cron');
 const axios = require('axios');
+<<<<<<< HEAD
 const compression = require("compression");
 const { redisClient } = require('./redis/redisClient');
+=======
+>>>>>>> f097e123570b7e501797471f37d1dba4a6b8b264
 
 app.prepare().then(() => {
     const server = express();
@@ -69,7 +72,11 @@ app.prepare().then(() => {
     });
 
     // Cron job to keep the server awake
+<<<<<<< HEAD
     cron.schedule('*/1 * * * *', () => {
+=======
+    cron.schedule('*/13 * * * *', () => {
+>>>>>>> f097e123570b7e501797471f37d1dba4a6b8b264
         axios.get(`http://localhost:${port}/api/authors`)
             .then(response => {
                 console.log('Pinged server to keep it awake:', response.status);
@@ -78,4 +85,8 @@ app.prepare().then(() => {
                 console.error('Error pinging server:', error);
             });
     });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> f097e123570b7e501797471f37d1dba4a6b8b264
