@@ -39,6 +39,6 @@ const startupSchema = new mongoose.Schema({
     timestamps: true, // Automatically adds createdAt and updatedAt fields
 });
 
-const Startup = mongoose.model('Startup', startupSchema);
+const Startup = mongoose.model('startups', startupSchema);
 
 module.exports = Startup;

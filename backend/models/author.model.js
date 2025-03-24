@@ -29,11 +29,16 @@ const authorSchema = new mongoose.Schema({
     bio: {
         type: String, // Author bio
         required: true,
+    },
+    github_id: {
+        type: String, // GitHub ID
+        required: true,
+        unique: true,
     }
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
 });
 
-const Author = mongoose.models.Author || mongoose.model('Author', authorSchema);
+const Author = mongoose.model('authors', authorSchema);
 
 module.exports = Author;

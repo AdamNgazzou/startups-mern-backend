@@ -39,11 +39,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="space-y-5 mt-10 max-w-4xl mx-auto">
           <div className="flex-between gap-5">
             <Link
-              href={`/user/${rawResponse_Startups?.author?.id}`}
+              href={`/user/${rawResponse_Startups?.author[0]?.id}`}
               className="flex gap-2 items-center mb-3"
             >
               <Image
-                src={rawResponse_Startups?.author?.image}
+                src={rawResponse_Startups?.author[0]?.image}
                 alt="avatar"
                 width={64}
                 height={64}
@@ -51,9 +51,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               />
 
               <div>
-                <p className="text-20-medium">{rawResponse_Startups?.author?.name}</p>
+                <p className="text-20-medium">{rawResponse_Startups?.author[0]?.name}</p>
                 <p className="text-16-medium !text-black-300">
-                  @{rawResponse_Startups?.author?.username}
+                  @{rawResponse_Startups?.author[0]?.username}
                 </p>
               </div>
             </Link>

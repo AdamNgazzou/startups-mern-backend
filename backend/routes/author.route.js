@@ -7,8 +7,6 @@ const { getAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } = requ
 router.get('/', getAuthors);
 // route get single author based on id
 router.get('/user/:id', getAuthor);
-// route get single author based on id
-//router.get('/user/', getAuthorgithub);
 // route create author
 router.post('/', createAuthor);
 // route update author

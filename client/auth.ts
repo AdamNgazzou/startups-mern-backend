@@ -14,11 +14,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const apiUrl = `${baseUrl}/api/authors/user/${profile?.id}`;
-        const rawexistingUser = await fetch(`${apiUrl}`);
+        console.log("Checking if user exists:", apiUrl);
+        const rawexistingUser = await fetch(apiUrl);
         const existingUser = await rawexistingUser.json();
 
-        //const existingUser = await Author.findOne({ id: profile?.id });
-        if (existingUser.length > 0) {
+        if (existingUser.length === 0) {
+          console.log("User does not exist, creating new user");
           // Create new author in MongoDB
           const response = await fetch(`${baseUrl}/api/authors`, {
             method: 'POST',
@@ -31,11 +32,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               username: profile?.login,
               email: user?.email,
               image: user?.image,
-              bio: profile?.bio || "",
+              bio: profile?.bio || "Empty bio", // Ensure bio is always included
+              github_id: profile?.id,
             }),
           });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Failed to create new user:", errorText);
+            throw new Error("Failed to create new user");
+          }
+
           const responseRaw = await response.json();
-          console.log("New user created",responseRaw);
+          console.log("New user created", responseRaw);
         } else {
           console.log("User already exists");
         }
@@ -51,12 +60,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         await dbConnect();
         const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const apiUrl = `${baseUrl}/api/authors/user/${profile?.id}`;
-        const rawexistingUser = await fetch(`${apiUrl}`);
+        console.log("Fetching user in jwt callback:", apiUrl);
+        const rawexistingUser = await fetch(apiUrl);
         const user = await rawexistingUser.json();
 
-        //const user = await Author.findOne({ id: profile?.id });
-
-        if (user) {
+        if (user.length > 0) {
           token.id = user[0].id.toString();
         }
       }

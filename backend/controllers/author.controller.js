@@ -38,25 +38,20 @@ const getAuthor = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-//get author by github id
-/*const getAuthorgithub = async (req, res) => {
-    try {
-        author = await authorModel.find({ github_id: req.query.github_id });
-        res.status(200).json(author);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};*/
 
 ///post a product
 const createAuthor = async (req, res) => {
     try {
+        console.log("Received request body:", req.body); // Add this line
         const author = await authorModel.create(req.body);
+        console.log("Author created:", author);
+        console.log("3aslema");
         res.status(200).json(author);
     } catch (error) {
+        console.error("Error creating author:", error); // Add this line
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 //update a product 
 const updateAuthor = async (req, res) => {
