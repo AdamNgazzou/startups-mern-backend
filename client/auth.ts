@@ -12,13 +12,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        console.log(profile?.id);
         const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const apiUrl = `${baseUrl}/api/authors/user/${profile?.id}`;
         const rawexistingUser = await fetch(`${apiUrl}`);
         const existingUser = await rawexistingUser.json();
-        console.log("xxx",existingUser);
-        console.log(existingUser.length);
 
         //const existingUser = await Author.findOne({ id: profile?.id });
         if (existingUser.length > 0) {

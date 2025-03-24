@@ -1,3 +1,5 @@
+// filepath: /c:/Users/LENOVO/Desktop/Projects2024/Next js projects/pitchify/startups/backend/server.js
+require('dotenv').config({ path: '.env.local' });
 const express = require('express');
 const next = require('next');
 const mongoose = require('mongoose');
@@ -7,12 +9,19 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev, dir: '../client' }); // Set the correct project root
 const handle = app.getRequestHandler();
 const cors = require('cors');
+const cron = require('node-cron');
+const axios = require('axios');
+const compression = require("compression");
+const { redisClient } = require('./redis/redisClient');
+
 app.prepare().then(() => {
     const server = express();
 
     // Middleware
+    server.use(compression());
     server.use(express.json());
     server.use(cors());
+
     // Connect to the database
     mongoose.connect(process.env.MONGODB_URI)
         .then(() => {
@@ -38,11 +47,6 @@ app.prepare().then(() => {
     // Default route to handle query parameters
     server.get('/', (req, res) => {
         const { query = "", page = "1" } = req.query;
-
-        // Log the query parameters
-        console.log("Query:", query);
-        console.log("Page:", page);
-
         // Pass query and page to the Next.js page
     });
 
@@ -51,9 +55,27 @@ app.prepare().then(() => {
         return handle(req, res);
     });
 
+    //handle redis disconnection
+    process.on('SIGINT', async () => {
+        await redisClient.quit();
+        console.log("Redis client disconnected. Server shutting down.");
+        process.exit(0);
+    });
+
     const port = process.env.PORT || 3000;
     server.listen(port, (err) => {
         if (err) throw err;
         console.log(`> Ready on http://localhost:${port}`);
+    });
+
+    // Cron job to keep the server awake
+    cron.schedule('*/1 * * * *', () => {
+        axios.get(`http://localhost:${port}/api/authors`)
+            .then(response => {
+                console.log('Pinged server to keep it awake:', response.status);
+            })
+            .catch(error => {
+                console.error('Error pinging server:', error);
+            });
     });
 });

@@ -17,7 +17,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ;
   const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
-  console.log("test",rawResponse_Startups?.startup?.pitch);
 
   const parsedContent = md.render(rawResponse_Startups?.startup?.pitch || "");
 

@@ -5,7 +5,6 @@
 
   const Page = async () =>{
     const session = await auth();
-    console.log(session?.user?.id);
     if(!session) redirect("/"); // AYO DATS SECURITY ^^
     return (
       <>

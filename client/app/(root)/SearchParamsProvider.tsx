@@ -6,7 +6,6 @@ export default function SearchParamsProvider({ children }: { children: (params: 
     const searchParams = useSearchParams();
     const query = searchParams?.get("query") || "";
     const page = searchParams?.get("page") || "1";
-    console.log(page);
 
     return children({ query, page });
 }

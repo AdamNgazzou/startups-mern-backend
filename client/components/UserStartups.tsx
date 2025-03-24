@@ -8,7 +8,6 @@ const UserStartups = async ({ id }: { id: string }) => {
 
   const startups = await fetch(`${baseUrl}/api/startups/user/?github_id=${id}`);
   const rawResponse_Startups = await startups.json();
-  console.log(rawResponse_Startups);
   return (
     <>
       {rawResponse_Startups.length > 0 ? (

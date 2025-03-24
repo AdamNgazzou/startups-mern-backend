@@ -10,7 +10,6 @@ const View = async ({ id }: { id: string }) => {
   // Increment the view count by 1
   const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
-  console.log("hehe",rawResponse_Startups);
 
   rawResponse_Startups.startup.views = rawResponse_Startups.startup.views + 1;
   const req = await fetch(`${baseUrl}/api/startups/${id}`, {
@@ -20,7 +19,6 @@ const View = async ({ id }: { id: string }) => {
     },
     body: JSON.stringify(rawResponse_Startups.startup),
   });
-  console.log("views",rawResponse_Startups.startup.views);
   // Perform the update
 
   return (

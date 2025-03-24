@@ -10,7 +10,7 @@ async function dbConnect() {
         return;
     }
     await mongoose.connect(MONGODB_URI)
-        .then(console.log("hello bhihih connected db"));
+        .then(console.log("connected db"));
 }
 
 export default dbConnect;
