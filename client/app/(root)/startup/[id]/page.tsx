@@ -17,13 +17,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ;
   const startups = await fetch(`${baseUrl}/api/startups/user/${id}`);
   const rawResponse_Startups = await startups.json();
-
+  console.log(rawResponse_Startups)
   const parsedContent = md.render(rawResponse_Startups?.startup?.pitch || "");
 
   return (
     <>
       <section className="pink_container !min-h-[230px]">
-        <p className="tag">{formatDate(rawResponse_Startups?.startup?._createdAt)}</p>
+        <p className="tag">{formatDate(rawResponse_Startups?.startup?.updatedAt)}</p>
 
         <h1 className="heading">{rawResponse_Startups?.startup?.title}</h1>
         <p className="sub-heading !max-w-5xl">{rawResponse_Startups.startup.description}</p>
@@ -39,11 +39,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="space-y-5 mt-10 max-w-4xl mx-auto">
           <div className="flex-between gap-5">
             <Link
-              href={`/user/${rawResponse_Startups?.author[0]?.id}`}
+              href={`/user/${rawResponse_Startups?.author?.id}`}
               className="flex gap-2 items-center mb-3"
             >
               <Image
-                src={rawResponse_Startups?.author[0]?.image}
+                src={rawResponse_Startups?.author?.image}
                 alt="avatar"
                 width={64}
                 height={64}
@@ -51,9 +51,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               />
 
               <div>
-                <p className="text-20-medium">{rawResponse_Startups?.author[0]?.name}</p>
+                <p className="text-20-medium">{rawResponse_Startups?.author?.name}</p>
                 <p className="text-16-medium !text-black-300">
-                  @{rawResponse_Startups?.author[0]?.username}
+                  @{rawResponse_Startups?.author?.username}
                 </p>
               </div>
             </Link>
