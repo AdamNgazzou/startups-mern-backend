@@ -7,7 +7,7 @@ const redisClient = Redis.createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: 'redis-10624.c85.us-east-1-2.ec2.redns.redis-cloud.com',
-        port: 11871
+        port: 10624
     }
 });
 
